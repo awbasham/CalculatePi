@@ -1,3 +1,4 @@
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 //Video showing the math proof, and the inspiration for this pointless program: https://www.youtube.com/watch?v=RZBhSi_PwHU
@@ -26,6 +27,7 @@ public class Main implements Runnable {
     }
 
     public static void main(String[] args) {
+        double startTime = System.currentTimeMillis();
         try {
             ArrayList<Thread> threads = new ArrayList<>();
             for (int i = 0; i < numOfThreads; i++) {
@@ -40,6 +42,9 @@ public class Main implements Runnable {
         } catch (InterruptedException e) {
             System.out.println(e.getMessage());
         }
+
+        DecimalFormat df = new DecimalFormat("#.###");
+        System.out.println("Minutes elapsed: " + df.format((System.currentTimeMillis() - startTime) / 1000 / 60));
 
         double x = (double) counter / numOfIterations;
 
