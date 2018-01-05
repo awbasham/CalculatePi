@@ -31,12 +31,16 @@ public class Main implements Runnable {
             for (int i = 0; i < numOfThreads; i++) {
                 threads.add(new Thread(new Main()));
                 threads.get(i).start();
-                threads.get(i).join();
             }
+
+            for(Thread thread : threads) {
+                thread.join();
+            }
+
         } catch (InterruptedException e) {
             System.out.println(e.getMessage());
         }
-        
+
         double x = (double) counter / numOfIterations;
 
         double calculatedPi = Math.sqrt(6 / x);
