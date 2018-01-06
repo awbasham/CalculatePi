@@ -1,9 +1,10 @@
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.concurrent.ThreadLocalRandom;
 
 //Video showing the math proof, and the inspiration for this pointless program: https://www.youtube.com/watch?v=RZBhSi_PwHU
 public class Main implements Runnable {
-    private static int numOfIterations = 100000000;
+    private static int numOfIterations = 1000000000;
     private static int randomMaxValue = Integer.MAX_VALUE;
     private static int counter = 0;
     private static int totalIterations = 0;
@@ -73,8 +74,9 @@ public class Main implements Runnable {
     }
 
     static int randomWithRange(int min, int max) {
-        int range = (max - min) + 1;
-        return (int) (Math.random() * range) + min;
+        //int range = (max - min) + 1;
+        //return (int) (Math.random() * range) + min;
+        return ThreadLocalRandom.current().nextInt(max - 1) + 1;
     }
 
     static int euclidGCD(int a, int b) {
