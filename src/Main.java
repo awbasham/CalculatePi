@@ -5,18 +5,17 @@ import java.util.concurrent.atomic.LongAdder;
 
 //Video showing the math proof, and the inspiration for this pointless program: https://www.youtube.com/watch?v=RZBhSi_PwHU
 public class Main implements Runnable {
-    private static int numOfIterations = 1000000000;
-    private static int randomMaxValue = Integer.MAX_VALUE;
+    private static long numOfIterations = 10000000000L;
+    private static long randomMaxValue = Long.MAX_VALUE;
     private static LongAdder counter = new LongAdder();
     private static LongAdder totalIterations = new LongAdder();
 
-    private static int numOfThreads = 9;
+    private static int numOfThreads = Runtime.getRuntime().availableProcessors();
 
     @Override
     public void run() {
-        while(totalIterations.intValue() < numOfIterations) {
+        while(totalIterations.longValue() < numOfIterations) {
             if (euclidGCD(randomWithRange(1, randomMaxValue), randomWithRange(1, randomMaxValue)) == 1) {
-                //Synchronized iterate counter
                 counter.increment();
             }
             totalIterations.increment();
@@ -42,8 +41,9 @@ public class Main implements Runnable {
 
         DecimalFormat df = new DecimalFormat("#.###");
         System.out.println("Minutes elapsed: " + df.format((System.currentTimeMillis() - startTime) / 1000 / 60));
+        System.out.println("Iterations per second: " + df.format(numOfIterations / ((System.currentTimeMillis() - startTime) / 1000)));
 
-        double x = (double) counter.intValue() / numOfIterations;
+        double x = (double) counter.longValue() / numOfIterations;
 
         double calculatedPi = Math.sqrt(6 / x);
 
@@ -52,11 +52,11 @@ public class Main implements Runnable {
         System.out.println("Percent error: " + (Math.abs(100 - (calculatedPi / Math.PI) * 100)));
     }
 
-    static int randomWithRange(int min, int max) {
-        return ThreadLocalRandom.current().nextInt(max - 1) + 1;
+    static long randomWithRange(long min, long max) {
+        return ThreadLocalRandom.current().nextLong(max - 1) + 1;
     }
 
-    static int euclidGCD(int a, int b) {
+    static long euclidGCD(long a, long b) {
         while (a != b) {
             if (a > b) {
                 a -= b;
