@@ -6,24 +6,41 @@ public class Main implements Runnable {
     private static int numOfIterations = 100000000;
     private static int randomMaxValue = Integer.MAX_VALUE;
     private static int counter = 0;
+    private static int totalIterations = 0;
 
     private static int numOfThreads = 4;
 
     @Override
     public void run() {
         //Allow each thread to perform equal parts of the calculation task
-        int totalIterations = numOfIterations / numOfThreads;
+        /*int totalIterations = numOfIterations / numOfThreads;
         for (int i = 0; i < totalIterations; i++) {
             if (euclidGCD(randomWithRange(1, randomMaxValue), randomWithRange(1, randomMaxValue)) == 1) {
                 //Synchronized iterate counter
                 iterateCounter();
             }
+        }*/
+
+        while(getTotalIterations() < numOfIterations) {
+            if (euclidGCD(randomWithRange(1, randomMaxValue), randomWithRange(1, randomMaxValue)) == 1) {
+                //Synchronized iterate counter
+                iterateCounter();
+            }
+            iterateTotalIteration();
         }
 
     }
 
     private static synchronized void iterateCounter() {
         counter++;
+    }
+
+    private static synchronized void iterateTotalIteration() {
+        totalIterations++;
+    }
+
+    private static synchronized int getTotalIterations() {
+        return totalIterations;
     }
 
     public static void main(String[] args) {
